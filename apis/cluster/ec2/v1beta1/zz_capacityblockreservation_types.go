@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CapacityBlockReservationInitParameters struct {
@@ -53,6 +53,8 @@ type CapacityBlockReservationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The number of instances for which to reserve capacity.
+	// This value will not be set until the Capacity Block Reservation is active.
+	// The requested instance count is set in the tag aws:ec2capacityreservation:incrementalRequestedQuantity.
 	InstanceCount *float64 `json:"instanceCount,omitempty" tf:"instance_count,omitempty"`
 
 	// The type of operating system for which to reserve capacity. Valid options are Linux/UNIX, Red Hat Enterprise Linux, SUSE Linux, Windows, Windows with SQL Server, Windows with SQL Server Enterprise, Windows with SQL Server Standard or Windows with SQL Server Web.
@@ -112,8 +114,8 @@ type CapacityBlockReservationParameters struct {
 
 // CapacityBlockReservationSpec defines the desired state of CapacityBlockReservation
 type CapacityBlockReservationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CapacityBlockReservationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CapacityBlockReservationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -129,8 +131,8 @@ type CapacityBlockReservationSpec struct {
 
 // CapacityBlockReservationStatus defines the observed state of CapacityBlockReservation.
 type CapacityBlockReservationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CapacityBlockReservationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CapacityBlockReservationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

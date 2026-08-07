@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttributeInitParameters struct {
@@ -476,11 +475,11 @@ type ServerSideEncryptionInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnRef *v1.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
+	KMSKeyArnRef *v2.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnSelector *v1.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
+	KMSKeyArnSelector *v2.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
 }
 
 type ServerSideEncryptionObservation struct {
@@ -506,11 +505,11 @@ type ServerSideEncryptionParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnRef *v1.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
+	KMSKeyArnRef *v2.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnSelector *v1.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
+	KMSKeyArnSelector *v2.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
 }
 
 type TTLInitParameters struct {
@@ -588,6 +587,9 @@ type TableInitParameters struct {
 
 	// Configuration block(s) with DynamoDB Global Tables V2 (version 2019.11.21) replication configurations. See below.
 	Replica []TableReplicaInitParameters `json:"replica,omitempty" tf:"replica,omitempty"`
+
+	// ARN of backup to restore.
+	RestoreBackupArn *string `json:"restoreBackupArn,omitempty" tf:"restore_backup_arn,omitempty"`
 
 	// Time of the point-in-time recovery point to restore.
 	RestoreDateTime *string `json:"restoreDateTime,omitempty" tf:"restore_date_time,omitempty"`
@@ -681,6 +683,9 @@ type TableObservation struct {
 
 	// Configuration block(s) with DynamoDB Global Tables V2 (version 2019.11.21) replication configurations. See below.
 	Replica []TableReplicaObservation `json:"replica,omitempty" tf:"replica,omitempty"`
+
+	// ARN of backup to restore.
+	RestoreBackupArn *string `json:"restoreBackupArn,omitempty" tf:"restore_backup_arn,omitempty"`
 
 	// Time of the point-in-time recovery point to restore.
 	RestoreDateTime *string `json:"restoreDateTime,omitempty" tf:"restore_date_time,omitempty"`
@@ -822,6 +827,10 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	Replica []TableReplicaParameters `json:"replica,omitempty" tf:"replica,omitempty"`
 
+	// ARN of backup to restore.
+	// +kubebuilder:validation:Optional
+	RestoreBackupArn *string `json:"restoreBackupArn,omitempty" tf:"restore_backup_arn,omitempty"`
+
 	// Time of the point-in-time recovery point to restore.
 	// +kubebuilder:validation:Optional
 	RestoreDateTime *string `json:"restoreDateTime,omitempty" tf:"restore_date_time,omitempty"`
@@ -894,11 +903,11 @@ type TableReplicaInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnRef *v1.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
+	KMSKeyArnRef *v2.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnSelector *v1.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
+	KMSKeyArnSelector *v2.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
 
 	// Whether to enable Point In Time Recovery for the replica. Default is false.
 	PointInTimeRecovery *bool `json:"pointInTimeRecovery,omitempty" tf:"point_in_time_recovery,omitempty"`
@@ -974,11 +983,11 @@ type TableReplicaParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnRef *v1.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
+	KMSKeyArnRef *v2.NamespacedReference `json:"kmsKeyArnRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyArn.
 	// +kubebuilder:validation:Optional
-	KMSKeyArnSelector *v1.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
+	KMSKeyArnSelector *v2.NamespacedSelector `json:"kmsKeyArnSelector,omitempty" tf:"-"`
 
 	// Whether to enable Point In Time Recovery for the replica. Default is false.
 	// +kubebuilder:validation:Optional
@@ -1075,8 +1084,8 @@ type TableSpec struct {
 
 // TableStatus defines the observed state of Table.
 type TableStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TableObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TableObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

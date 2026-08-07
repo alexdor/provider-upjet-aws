@@ -474,6 +474,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -1061,6 +1064,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -1676,6 +1682,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -1846,6 +1855,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation
@@ -2290,6 +2306,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -2847,6 +2866,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -3432,6 +3454,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreBackupArn:
+                    description: ARN of backup to restore.
+                    type: string
                   restoreDateTime:
                     description: Time of the point-in-time recovery point to restore.
                     type: string
@@ -3596,6 +3621,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation
